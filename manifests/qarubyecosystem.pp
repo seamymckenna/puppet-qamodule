@@ -4,7 +4,7 @@ class qamodule::qarubyecosystem (
   #require qahomebrew
 
   class { '::rvm': gnupg_key_id => false}
-  rvm::system_user { "$user": }
+  rvm::system_user { "$user": create => false }
   ->
     #The installing of ruby via the rvm module uses brew as root which is no longer
     #supported, hence we use exec for the installation of ruby
