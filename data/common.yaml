@@ -1,0 +1,8 @@
+---
+qavmfloaty::config_file: '.vmfloaty.yml'
+qavmfloaty::home_dir: '/Users'
+qavmfloaty::config_file_mode: '0444'
+qavmfloaty::config_template: 'vmfloaty/vmfloaty.yml.epp'
+qavmfloaty::package_ensure: 'present'
+qavmfloaty::package_name: 'vmfloaty'
+qavmfloaty::vmpooler_url: 'http://vmpooler.delivery.puppetlabs.net'

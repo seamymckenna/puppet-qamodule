@@ -1,0 +1,88 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+PATH=$PATH:$HOME/bin
+export PATH
+
+# SSH keys
+ssh-add ~/.ssh/id_rsa 2>&1 > /dev/null
+ssh-add ~/.ssh/id_rsa-acceptance > /dev/null
+
+#VM Pooler token
+my_vmpooler_token() {
+  grep --extended --only-matching 'vmpooler_token: .*' /home/user/.fog | awk -F ' ' '{print }'
+}
+
+#List,Get,SSH,Remove Vms
+function listvm() { curl -s --url http://vcloud.delivery.puppetlabs.net/vm/ ; }
+function getvm() { curl -d --url http://vcloud.delivery.puppetlabs.net/vm/ -H X-AUTH-TOKEN:$\(my_vmpooler_token\) 2> /dev/null | ruby -e 'require "json"; resp = JSON.parse(STDIN.read); puts resp[resp.keys[1]]["hostname"] + "." + resp["domain"]' ;}
+function sshvm() { ssh -i ~/.ssh/id_rsa-acceptance root@ ; }
+function rmvm() { curl -X DELETE --url http://vcloud.delivery.puppetlabs.net/vm/ -H X-AUTH-TOKEN:$\(my_vmpooler_token\); echo"" ; }
+
+#History
+HISTCONTROL='ignoredups:erasedups'
+HISTFILESIZE=1000000
+HISTSIZE=1000000
+
+#Terminal configuration
+CLICOLOR=1
+
+# Options for less
+# -e: quit at EOF
+# -F: quit if entire file fits on first screen
+# -N: display line numbers
+# -R: output "raw" control chars
+# -X: no screen init to prevent redrawing the screen on exit
+LESS="-N -R -X -F -e"
+
+export HISTCONTROL HISTFILESIZE HISTSIZE CLICOLOR LESS
+
+# set 256 color profile where possible
+if [[ $COLORTERM == gnome-* && $TERM == xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+  export TERM=gnome-256color
+elif infocmp xterm-256color >/dev/null 2>&1; then
+  export TERM=xterm-256color
+fi
+
+# Bundler aliases
+alias be='bundle exec'
+alias bi='bundle install'
+alias bu='bundle update'
+
+# Git aliases
+alias co='git checkout'
+alias gl='git log -10 --oneline | more'
+alias gpo='git push --recurse-submodules=on-demand origin'
+alias gpu='git pull --recurse-submodules upstream'
+
+## Bash-git-prompt
+if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+  export GIT_PROMPT_THEME=Default
+  source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+fi
+
+# Ruby
+export GEM_HOME=$HOME/.gem
+export PATH=$GEM_HOME/bin:$PATH
+
+[ -z "$HISTCONTROL" ] && source ~/.bashrc
+
+# aws
+alias myaws="aws ec2 describe-instances --output text   --filters Name=tag:created_by,Values=$USER --query 'Reservations[].Instances[].InstanceId'"
+alias kill_aws="aws ec2  terminate-instances  --instance-ids"
+
+# mount internal puppet stuff
+alias mnt_int_res="sudo mount -t nfs  int-resources.ops.puppetlabs.net:/tank01/resources0 /mnt/int-resources"
+
+# set forge_host for testing
+export forge_host=api-forge-aio01-petest.puppetlabs.com
+
+# for Razor test
+export RAZOR_API=https://razor-server-1.delivery.puppetlabs.net:8151/api
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

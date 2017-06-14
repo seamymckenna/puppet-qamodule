@@ -1,0 +1,13 @@
+HOSTS:
+  qamodule-osx-1011-agent:
+    roles:
+      - agent
+      - default
+    platform: osx-10.11-x86_64
+    hypervisor: vagrant
+    box: jhcook/osx-elcapitan-10.11
+CONFIG:
+  nfs_server: none
+  consoleport: 443
+  datastore: instance0
+  folder: Delivery/Quality Assurance/Enterprise/Dynamic
