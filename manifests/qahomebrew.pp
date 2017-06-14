@@ -3,7 +3,7 @@ class qamodule::qahomebrew (
   String $group = 'staff'
 ) {
 
-  #require qamodule::qavmfloaty
+  require Class['qamodule::qavmfloaty']
 
   # /usr/local/bin is a virtual resource defined in puppet_enterprise::symlinks
   # We use a resource collecter to realize and update attributes
