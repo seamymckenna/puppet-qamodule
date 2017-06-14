@@ -13,7 +13,7 @@ class qamodule::qaxcode (
     ensure  => present,
     owner   => $user,
     group   => $group,
-    source  => "puppet:///modules/qaxcode/install_xcode_cli_tools.sh",
+    source  => "puppet:///modules/qamodule/install_xcode_cli_tools.sh",
     mode    => '0755',
   } ->
   exec { 'install_xcode_cli_tools':

@@ -3,7 +3,7 @@ class qamodule::qavmpoolerbitbar (
   String $group = 'staff'
 ) {
 
-  require qarubyecosystem
+  #require qarubyecosystem
 
   package { ['bitbar']:
     ensure   => present,

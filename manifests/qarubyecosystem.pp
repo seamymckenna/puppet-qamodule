@@ -1,7 +1,7 @@
 class qamodule::qarubyecosystem (
   String $user = $qa_username
 ) {
-  require qahomebrew
+  #require qahomebrew
 
   class { '::rvm': gnupg_key_id => false}
   rvm::system_user { "$user": }

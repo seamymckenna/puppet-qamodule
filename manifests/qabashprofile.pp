@@ -1,9 +1,9 @@
 class qamodule::qabashprofile (
-  String $user = $qa_username
+  String $user = $qamodule::qa_username
 ) { 
   File { "/Users/$user/.qabashprofile":
     mode => '644',
-    source => "puppet:///modules/qabashprofile/qabashprofile",
+    source => "puppet:///modules/qamodule/qabashprofile",
   }
   File { "/Users/$user/.profile":
     ensure => file,

@@ -1,5 +1,5 @@
 class qamodule::qapackages {
-  require qarubyecosystem
+  #require qarubyecosystem
   #Following packages are installed via homebrew module
   package {['git', 'tmux', 'gnupg']:
     ensure   => installed,
